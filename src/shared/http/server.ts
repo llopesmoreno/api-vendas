@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import express, { NextFunction, Request, response, Response } from 'express';
+import 'express-async-errors';
 import cors from 'cors';
 import routes from './routes';
 import AppError from '@shared/errors/AppError';
@@ -23,6 +24,7 @@ app.use(
             return response.status(error.statusCode).json({
                 status: 'error',
                 message: error.message,
+                errors: error.errors,
             });
         }
 
