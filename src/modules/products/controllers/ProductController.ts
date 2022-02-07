@@ -1,4 +1,7 @@
-import CreateProductService from '@modules/services/Products/CreateProductService';
+import {
+    CreateProductService,
+    CreateProductRequest,
+} from '@modules/services/Products/CreateProductService';
 import ListProductService from '@modules/services/Products/ListProductService';
 import { Request, Response } from 'express';
 
@@ -9,10 +12,13 @@ export default class ProductController {
     ): Promise<Response> {
         const createProductService = new CreateProductService();
         const { name, price, quantity } = request.body;
-        const product = await createProductService.execute(
+        const createProductRequest = new CreateProductRequest(
             name,
             price,
             quantity,
+        );
+        const product = await createProductService.execute(
+            createProductRequest,
         );
 
         return response.json(product);

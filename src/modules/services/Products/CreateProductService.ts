@@ -28,7 +28,7 @@ class CreateProductRequest {
         return (
             this.quantity === undefined ||
             this.quantity === null ||
-            this.quantity <= 0
+            this.quantity < 0
         );
     }
 
@@ -44,9 +44,7 @@ class CreateProductService extends BaseService<ProductRepository> {
         super(ProductRepository);
     }
 
-    public async execute(name: string, price: number, quantity: number) {
-        const request = new CreateProductRequest(name, price, quantity);
-
+    public async execute(request: CreateProductRequest) {
         if (request.invalidRequest()) {
             const errors = this.getRequestErrors(request);
 
@@ -88,7 +86,6 @@ class CreateProductService extends BaseService<ProductRepository> {
 
     private async productExists(name: string): Promise<boolean> {
         const product = await this._repository.findByName(name);
-        console.log(product);
         return product !== undefined;
     }
 
@@ -109,4 +106,4 @@ class CreateProductService extends BaseService<ProductRepository> {
     }
 }
 
-export default CreateProductService;
+export { CreateProductService, CreateProductRequest };
