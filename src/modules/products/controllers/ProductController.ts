@@ -1,11 +1,29 @@
 import {
     CreateProductService,
+    ListProductService,
+    UpdateProductService,
+} from '@modules/services/Products/ProductService';
+import {
     CreateProductRequest,
-} from '@modules/services/Products/CreateProductService';
-import ListProductService from '@modules/services/Products/ListProductService';
+    UpdateProductRequest,
+} from '@modules/services/Products/Models/ProductRequest';
+
 import { Request, Response } from 'express';
 
 export default class ProductController {
+    public async index(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
+        const listProductService = new ListProductService();
+
+        const products = await listProductService.execute().catch(error => {
+            throw error;
+        });
+
+        return response.json(products);
+    }
+
     public async create(
         request: Request,
         response: Response,
@@ -24,14 +42,19 @@ export default class ProductController {
         return response.json(product);
     }
 
-    public async index(
-        request: Request,
-        response: Response,
-    ): Promise<Response> {
-        const listProductService = new ListProductService();
+    public async update(request: Request, response: Response) {
+        const updateProductService = new UpdateProductService();
 
-        const products = await listProductService.execute();
+        const { name, price, quantity, id } = request.body;
 
-        return response.json(products);
+        const updateRequest = new UpdateProductRequest(
+            name,
+            price,
+            quantity,
+            id,
+        );
+
+        const product = await updateProductService.execute(updateRequest);
+        return response.json(product);
     }
 }
