@@ -50,8 +50,8 @@ export default class ProductController {
 
     public async update(request: Request, response: Response) {
         const updateProductService = new ProductServices.UpdateProductService();
-
-        const { name, price, quantity, id } = request.body;
+        const { id } = request.params;
+        const { name, price, quantity } = request.body;
 
         const updateRequest = new UpdateProductRequest(
             name,
