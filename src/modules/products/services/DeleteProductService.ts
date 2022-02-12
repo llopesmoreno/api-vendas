@@ -1,4 +1,4 @@
-import BaseService from '../BaseService';
+import BaseService from '@shared/BaseService';
 import { ProductRepository } from '@modules/products/typeorm/repositories/productsRepository';
 
 export default class DeleteProductService extends BaseService<ProductRepository> {

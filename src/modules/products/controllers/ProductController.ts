@@ -1,8 +1,8 @@
-import * as ProductServices from '@modules/services/Products/ProductService';
+import * as ProductServices from '@modules/products/services/ProductService';
 import {
     CreateProductRequest,
     UpdateProductRequest,
-} from '@modules/services/Products/Models/ProductRequest';
+} from '@modules/products/services/Models/ProductRequest';
 import { Request, Response } from 'express';
 
 export default class ProductController {

@@ -1,6 +1,6 @@
 import Product from '@modules/products/typeorm/entities/product';
 import { ProductRepository } from '@modules/products/typeorm/repositories/productsRepository';
-import BaseService from '../BaseService';
+import BaseService from '@shared/BaseService';
 
 class ListProductService extends BaseService<ProductRepository> {
     constructor() {

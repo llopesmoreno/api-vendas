@@ -1,4 +1,4 @@
-import BaseService from '../BaseService';
+import BaseService from '@shared/BaseService';
 import Product from '@modules/products/typeorm/entities/product';
 import { UpdateProductRequest } from './Models/ProductRequest';
 import { ProductRepository } from '@modules/products/typeorm/repositories/productsRepository';
