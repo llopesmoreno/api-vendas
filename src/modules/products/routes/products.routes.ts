@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import ProductController from '../controllers/ProductController';
 import { celebrate } from 'celebrate';
-import * as validations from './validations';
+import * as validations from './validations.product.celebrate';
 
 const productsRouter = Router();
 const controller = new ProductController();
