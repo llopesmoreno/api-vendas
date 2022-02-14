@@ -2,6 +2,7 @@ import BaseService from '@shared/BaseService';
 import { User } from '../typeorm/entities/Users';
 import CreateUserRequest from './models/CreateUserModel';
 import UsersRepository from '../typeorm/repositories/UsersRepository';
+import { hash } from 'bcryptjs';
 
 export default class CreateProductService extends BaseService<UsersRepository> {
     constructor() {
@@ -45,10 +46,12 @@ export default class CreateProductService extends BaseService<UsersRepository> {
         email: string,
         password: string,
     ): Promise<User> {
+        const encriptedPassword = await hash(password, 8);
+
         const user = this._repository.create({
             name,
             email,
-            password,
+            password: encriptedPassword,
         });
 
         await this._repository.save(user);
