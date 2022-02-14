@@ -1,7 +1,7 @@
 import BaseService from '@shared/BaseService';
-import UsersRepository from '../typeorm/repositories/UsersRepository';
 import { User } from '../typeorm/entities/Users';
-import { CreateUserRequest } from './models/CreateUserModel';
+import CreateUserRequest from './models/CreateUserModel';
+import UsersRepository from '../typeorm/repositories/UsersRepository';
 
 export default class CreateProductService extends BaseService<UsersRepository> {
     constructor() {
