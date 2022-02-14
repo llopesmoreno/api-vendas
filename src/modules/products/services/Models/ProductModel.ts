@@ -1,3 +1,5 @@
+import { isEmptyOrWhiteSpace, isNull } from '@shared/Validations';
+
 export default abstract class ProductModel {
     readonly name: string;
     readonly price: number;
@@ -10,22 +12,14 @@ export default abstract class ProductModel {
     }
 
     public invalidName(): boolean {
-        return (
-            this.name === '' || this.name === undefined || this.name === null
-        );
+        return isEmptyOrWhiteSpace(this.name);
     }
 
     public invalidPrice(): boolean {
-        return (
-            this.price === undefined || this.price === null || this.price <= 0
-        );
+        return isNull(this.price) || this.price <= 0;
     }
     public invalidQuantity(): boolean {
-        return (
-            this.quantity === undefined ||
-            this.quantity === null ||
-            this.quantity < 0
-        );
+        return isNull(this.quantity) || this.quantity < 0;
     }
 
     public invalidRequest(): boolean {
