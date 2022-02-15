@@ -1,7 +1,7 @@
 import { compare } from 'bcryptjs';
 import BaseService from '@shared/BaseService';
-import { User } from '../typeorm/entities/Users';
-import UsersRepository from '../typeorm/repositories/UsersRepository';
+import { User } from '../../typeorm/entities/Users';
+import UsersRepository from '../../typeorm/repositories/UsersRepository';
 
 export default class CreateSessionService extends BaseService<UsersRepository> {
     constructor() {
