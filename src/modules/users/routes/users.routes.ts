@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import UsersController from '../controllers/UsersController';
 import { celebrate } from 'celebrate';
+import UsersController from '../controllers/UsersController';
 import { CreateUserValidations } from './validations.users.celebrate';
-import isAuthenticated from '../middlewares/isAuthenticated';
+import isAuthenticated from '@shared/http/middlewares/isAuthenticated';
 
 const usersRouter = Router();
 const controller = new UsersController();
