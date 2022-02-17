@@ -3,6 +3,12 @@ import AppError from '@shared/errors/AppError';
 import { NextFunction, Request, Response } from 'express';
 import { sign, verify } from 'jsonwebtoken';
 
+interface TokenPayload {
+    iat: number;
+    exp: number;
+    sub: string;
+}
+
 export default function isAuthenticated(
     request: Request,
     response: Response,
@@ -15,7 +21,14 @@ export default function isAuthenticated(
     const [, token] = authHeader.split(' ');
 
     try {
-        verify(token, auth.jwt.secret);
+        const decoderedToken = verify(token, auth.jwt.secret);
+
+        const { sub } = decoderedToken as TokenPayload;
+
+        request.user = {
+            id: sub,
+        };
+
         return next();
     } catch (error) {
         throw new AppError('Token inválido', 401);
