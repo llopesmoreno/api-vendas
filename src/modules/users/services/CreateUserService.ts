@@ -36,8 +36,8 @@ export default class CreateProductService extends BaseService<UsersRepository> {
     }
 
     private async checkEmail(email: string) {
-        const product = await this._repository.findByEmail(email);
-        if (product !== undefined)
+        const user = await this._repository.findByEmail(email);
+        if (user !== undefined)
             throw this.getError('Já existe um usuário com o e-mail:' + email);
     }
 

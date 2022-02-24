@@ -1,12 +1,13 @@
 import cors from 'cors';
 import '@shared/typeorm';
 import 'reflect-metadata';
-import routes from './routes';
 import 'express-async-errors';
+import routes from './routes';
 import { errors } from 'celebrate';
 import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 import express, { NextFunction, Request, Response } from 'express';
+
 const app = express();
 
 app.use(cors());
