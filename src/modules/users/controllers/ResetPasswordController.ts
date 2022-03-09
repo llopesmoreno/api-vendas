@@ -1,18 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
 import * as UserServices from '@modules/users/services/UserServices';
 
-export default class ForgotPasswordController {
+export default class ResetPasswordController {
     public async create(
         request: Request,
         response: Response,
         next: NextFunction,
     ): Promise<Response> {
-        const service = new UserServices.SendForgotPasswordEmailService();
+        const service = new UserServices.ResetUserPassword();
 
-        const { email } = request.body;
+        const { token, password } = request.body;
 
-        const token = await service.execute({ email });
+        await service.execute({ token, password });
 
-        return response.json(token);
+        return response.status(204).json();
     }
 }

@@ -38,6 +38,11 @@ export class CreateProducts1643833634874 implements MigrationInterface {
                         type: 'timestamp',
                         default: 'now()',
                     },
+                    {
+                        name: 'already_used',
+                        type: 'boolean',
+                        default: 'false',
+                    },
                 ],
             }),
         );

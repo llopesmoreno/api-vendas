@@ -24,4 +24,7 @@ export class UserTokens {
 
     @UpdateDateColumn()
     updated_at: Date;
+
+    @Column()
+    already_used: boolean;
 }

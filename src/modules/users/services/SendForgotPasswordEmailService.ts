@@ -18,7 +18,7 @@ export default class SendForgotPasswordEmailService extends BaseService<UsersRep
         const user = await this.getUser(email);
 
         const token = await this.generateToken(user.id);
-
+        console.log(token);
         return token;
     }
 
@@ -34,6 +34,13 @@ export default class SendForgotPasswordEmailService extends BaseService<UsersRep
 
     private async generateToken(user_id: string): Promise<UserTokens> {
         const tokenRepository = getCustomRepository(UserTokensRepository);
+
+        const createdToken = await tokenRepository.findOne({
+            user_id,
+            already_used: false,
+        });
+
+        if (createdToken) return createdToken;
 
         const token = await tokenRepository.generate(user_id);
         if (!token) throw this.getError('Falha ao gerar o token.', 500);

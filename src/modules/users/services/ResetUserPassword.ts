@@ -1,3 +1,4 @@
+import { hash } from 'bcryptjs';
 import BaseService from '@shared/BaseService';
 import { getCustomRepository } from 'typeorm';
 import { isAfter, addHours } from 'date-fns';
@@ -5,7 +6,6 @@ import { User } from '../typeorm/entities/Users';
 import { UserTokens } from '../typeorm/entities/UserTokens';
 import UsersRepository from '../typeorm/repositories/UsersRepository';
 import UserTokensRepository from '../typeorm/repositories/UserTokensRepository';
-import { hash } from 'bcryptjs';
 
 interface IRequest {
     token: string;
@@ -13,8 +13,10 @@ interface IRequest {
 }
 
 export default class ResetUserPassword extends BaseService<UsersRepository> {
+    readonly _userTokenRepository: UserTokensRepository;
     constructor() {
         super(UsersRepository);
+        this._userTokenRepository = getCustomRepository(UserTokensRepository);
     }
 
     public async execute({ token, password }: IRequest): Promise<void> {
@@ -25,11 +27,11 @@ export default class ResetUserPassword extends BaseService<UsersRepository> {
         this.validateToken(userToken);
 
         await this.updateUserPessword(user, password);
+        await this.updateUserToken(userToken);
     }
 
     private async getUserToken(token: string): Promise<UserTokens> {
-        const tokenRepository = getCustomRepository(UserTokensRepository);
-        const userToken = await tokenRepository.findByToken(token);
+        const userToken = await this._userTokenRepository.findByToken(token);
 
         if (!userToken) {
             throw this.getError('Token não encontrado', 404);
@@ -51,7 +53,7 @@ export default class ResetUserPassword extends BaseService<UsersRepository> {
         const createdAt = userToken.created_at;
         const compareDate = addHours(createdAt, 2);
 
-        if (isAfter(Date.now(), compareDate)) {
+        if (isAfter(Date.now(), compareDate) || userToken.already_used) {
             throw this.getError('Token expirado', 401);
         }
     }
@@ -61,5 +63,11 @@ export default class ResetUserPassword extends BaseService<UsersRepository> {
         password: string,
     ): Promise<void> {
         user.password = await hash(password, 8);
+        await this._repository.save(user);
+    }
+
+    private async updateUserToken(user_token: UserTokens): Promise<void> {
+        user_token.already_used = true;
+        await this._userTokenRepository.save(user_token);
     }
 }
