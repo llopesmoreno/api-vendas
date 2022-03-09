@@ -4,6 +4,7 @@ import { User } from '../typeorm/entities/Users';
 import { UserTokens } from '../typeorm/entities/UserTokens';
 import UsersRepository from '../typeorm/repositories/UsersRepository';
 import UserTokensRepository from '../typeorm/repositories/UserTokensRepository';
+import EterealMail from '@config/mail/EtherealMail';
 
 interface IRequest {
     email: string;
@@ -14,12 +15,16 @@ export default class SendForgotPasswordEmailService extends BaseService<UsersRep
         super(UsersRepository);
     }
 
-    public async execute({ email }: IRequest): Promise<UserTokens> {
+    public async execute({ email }: IRequest): Promise<void> {
         const user = await this.getUser(email);
 
-        const token = await this.generateToken(user.id);
-        console.log(token);
-        return token;
+        const userToken = await this.generateToken(user.id);
+
+        await EterealMail.sendMail({
+            to: user.email,
+            subject: 'apivendas',
+            text: `Solicitação de redefinição de senha ${userToken.token}`,
+        });
     }
 
     private async getUser(email: string): Promise<User> {

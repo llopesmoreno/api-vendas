@@ -11,8 +11,8 @@ export default class ForgotPasswordController {
 
         const { email } = request.body;
 
-        const token = await service.execute({ email });
+        await service.execute({ email });
 
-        return response.json(token);
+        return response.status(204).json();
     }
 }
