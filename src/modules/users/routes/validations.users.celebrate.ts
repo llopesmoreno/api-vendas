@@ -10,4 +10,25 @@ const CreateUserValidations = () => {
     };
 };
 
-export { CreateUserValidations };
+const ForgotPasswordValidations = () => {
+    return {
+        [Segments.BODY]: {
+            email: Joi.string().email().required(),
+        },
+    };
+};
+
+const ResetPasswordValidations = () => {
+    return {
+        [Segments.BODY]: {
+            token: Joi.string().required(),
+            password: Joi.string().required(),
+        },
+    };
+};
+
+export {
+    CreateUserValidations,
+    ForgotPasswordValidations,
+    ResetPasswordValidations,
+};

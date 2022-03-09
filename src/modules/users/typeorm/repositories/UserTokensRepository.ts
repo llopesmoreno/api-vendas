@@ -3,7 +3,7 @@ import { EntityRepository, Repository } from 'typeorm';
 
 @EntityRepository(UserTokens)
 export default class UserTokensRepository extends Repository<UserTokens> {
-    public async findByName(token: string): Promise<UserTokens | undefined> {
+    public async findByToken(token: string): Promise<UserTokens | undefined> {
         const userToken = await this.findOne({
             where: {
                 token,
