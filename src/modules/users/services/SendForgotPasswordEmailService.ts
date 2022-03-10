@@ -21,9 +21,18 @@ export default class SendForgotPasswordEmailService extends BaseService<UsersRep
         const userToken = await this.generateToken(user.id);
 
         await EterealMail.sendMail({
-            to: user.email,
-            subject: 'apivendas',
-            text: `Solicitação de redefinição de senha ${userToken.token}`,
+            to: {
+                name: user.name,
+                email: user.email,
+            },
+            subject: 'Recuperação de senha',
+            templateData: {
+                template: `<h1>OLÁ {{name}}, Solicitação de redefinição de senha {{token}}</h1>`,
+                variables: {
+                    name: user.name,
+                    token: userToken.token,
+                },
+            },
         });
     }
 
