@@ -1,10 +1,11 @@
+import path from 'path';
 import BaseService from '@shared/BaseService';
 import { getCustomRepository } from 'typeorm';
 import { User } from '../typeorm/entities/Users';
+import EterealMail from '@config/mail/EtherealMail';
 import { UserTokens } from '../typeorm/entities/UserTokens';
 import UsersRepository from '../typeorm/repositories/UsersRepository';
 import UserTokensRepository from '../typeorm/repositories/UserTokensRepository';
-import EterealMail from '@config/mail/EtherealMail';
 
 interface IRequest {
     email: string;
@@ -20,6 +21,13 @@ export default class SendForgotPasswordEmailService extends BaseService<UsersRep
 
         const userToken = await this.generateToken(user.id);
 
+        const templateFileForgotPassword = path.resolve(
+            __dirname,
+            '..',
+            'views',
+            'forgot_pass.hbs',
+        );
+
         await EterealMail.sendMail({
             to: {
                 name: user.name,
@@ -27,10 +35,10 @@ export default class SendForgotPasswordEmailService extends BaseService<UsersRep
             },
             subject: 'Recuperação de senha',
             templateData: {
-                template: `<h1>OLÁ {{name}}, Solicitação de redefinição de senha {{token}}</h1>`,
+                file: templateFileForgotPassword,
                 variables: {
                     name: user.name,
-                    token: userToken.token,
+                    link: `http://localhost:3000/resetpassword?token=${userToken.token}`,
                 },
             },
         });

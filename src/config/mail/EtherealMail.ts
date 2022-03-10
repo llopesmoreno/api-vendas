@@ -1,26 +1,6 @@
 import nodemailser from 'nodemailer';
 import handlebarsMailTemplate from './HandlebarsTemplateEmail';
-
-interface ITemplateVariables {
-    [key: string]: string | number;
-}
-
-interface IParseMailTemplate {
-    template: string;
-    variables: ITemplateVariables;
-}
-
-interface IMailContact {
-    name: string;
-    email: string;
-}
-
-interface ISendMail {
-    to: IMailContact;
-    from?: IMailContact;
-    subject: string;
-    templateData: IParseMailTemplate;
-}
+import { ISendMail } from './interfaces/MailInterfaces';
 
 export default class EtherealMail {
     static async sendMail({
