@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { celebrate } from 'celebrate';
-import * as Validations from './validations.users.celebrate';
+import * as Validations from './validations/validations.users.celebrate';
 import ResetPasswordController from '../controllers/ResetPasswordController';
 import ForgotPasswordController from '../controllers/ForgotPasswordController';
 

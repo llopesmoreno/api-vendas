@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { celebrate } from 'celebrate';
 import avatarRoutes from './avatar.routes';
 import UsersController from '../controllers/UsersController';
-import { CreateUserValidations } from './validations.users.celebrate';
+import { CreateUserValidations } from './validations/validations.users.celebrate';
 import isAuthenticated from '@shared/http/middlewares/isAuthenticated';
 
 const usersRouter = Router();

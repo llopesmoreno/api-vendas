@@ -12,7 +12,7 @@ interface IRequest {
     password: string;
 }
 
-export default class ResetUserPassword extends BaseService<UsersRepository> {
+export default class ResetUserPasswordService extends BaseService<UsersRepository> {
     readonly _userTokenRepository: UserTokensRepository;
     constructor() {
         super(UsersRepository);
