@@ -7,7 +7,7 @@ export default class ResetPasswordController {
         response: Response,
         next: NextFunction,
     ): Promise<Response> {
-        const service = new UserServices.ResetUserPassword();
+        const service = new UserServices.ResetUserPasswordService();
 
         const { token, password } = request.body;
 
