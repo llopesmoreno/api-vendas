@@ -13,10 +13,21 @@ export default class CreateCustomerService extends BaseService<CustomersReposito
     }
 
     public async execute({ name, email }: IRequest): Promise<Customer> {
+        await this.verifyEmailExists(email);
+
         const customer = this._repository.create({ name, email });
 
         await this._repository.save(customer);
 
         return customer;
+    }
+
+    private async verifyEmailExists(email: string) {
+        const customerExists = await this._repository.findByEmail(email);
+        if (customerExists)
+            throw this.getError(
+                'Já existe um cliente cadastrado com este e-mail',
+                403,
+            );
     }
 }
